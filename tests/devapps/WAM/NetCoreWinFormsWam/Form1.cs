@@ -72,7 +72,7 @@ namespace NetCoreWinFormsWAM
             var pca = PublicClientApplicationBuilder
                 .Create(clientId)
                 .WithAuthority(this.authorityCbx.Text)
-#if !NET5_0
+#if !NET5_0_OR_GREATER
                 .WithDesktopFeatures()
 #endif
                 .WithBroker(this.useBrokerChk.Checked)
@@ -461,7 +461,7 @@ namespace NetCoreWinFormsWAM
 
             var ctor = typeof(TokenCacheNotificationArgs).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single();
 
-            var argz = ctor.Invoke(new object[] { pca.UserTokenCache, GetClientId(), null, true, false, true, null });
+            var argz = ctor.Invoke(new object[] { pca.UserTokenCache, GetClientId(), null, true, false, true, null, null});
             var task = pca.UserTokenCache.GetType().GetRuntimeMethods()
                 .Single(m => m.Name == "Microsoft.Identity.Client.ITokenCacheInternal.OnAfterAccessAsync")
                 .Invoke(pca.UserTokenCache, new[] { argz });
